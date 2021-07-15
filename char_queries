@@ -1,0 +1,47 @@
+/* query to list first four attributes from CHARTER table */
+
+SELECT CHAR_TRIP, CAST(CHAR_DATE AS Date) AS 'CHAR_DATE', AC_NUMBER, CHAR_DESTINATION
+FROM CHARTER;
+
+
+/* query to create output shown in figure P7.2 */
+
+SELECT CAST(CHAR_DATE AS Date) AS 'CHAR_DATE', AC_NUMBER, CHAR_DESTINATION, 
+CHAR_DISTANCE, CHAR_HOURS_FLOWN
+FROM CHARTER
+WHERE AC_NUMBER = '2778V';
+
+
+/* query that displays customers with unpaid balance */
+
+SELECT CUS_LNAME, CUS_FNAME, CUS_INITIAL, CUS_BALANCE
+FROM CUSTOMER
+WHERE CUS_BALANCE != '0'
+ORDER BY CUS_BALANCE DESC;
+
+
+/* query to find average unpaid bal, min bal, max bal, and total unpaid bal */
+
+SELECT
+(SELECT AVG(CUS_BALANCE)
+FROM CUSTOMER
+WHERE CUS_BALANCE != '0') AS Average_Balance,
+(SELECT MIN(CUS_BALANCE) 
+FROM CUSTOMER) AS Minimum_Balance,
+(SELECT MAX(CUS_BALANCE) 
+FROM CUSTOMER) AS Maximum_Balance,
+(SELECT SUM(CUS_BALANCE) 
+FROM CUSTOMER
+WHERE CUS_BALANCE != '0') AS Total_Unpaid_Bills;
+
+
+/* query that lists ages of employees from date query was run */
+
+SELECT EMP_NUM, EMP_LNAME, EMP_FNAME, 
+CAST(EMP_HIRE_DATE AS Date) AS 'EMP_HIRE_DATE',
+CAST(EMP_DOB AS Date) AS 'EMP_DOB', 
+DATEDIFF(year, EMP_DOB, GETDATE()) AS 'Age',
+CAST(GETDATE() AS Date) AS 'Query Date'
+FROM EMPLOYEE;
+
+
